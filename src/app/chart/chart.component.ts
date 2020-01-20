@@ -15,8 +15,8 @@ import {
 export class ChartComponent implements OnInit, OnChanges {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
-  private width = 500;
-  private height = 50;
+  private width;
+  private height;
 
   constructor(private elRef: ElementRef) {}
 
@@ -29,11 +29,12 @@ export class ChartComponent implements OnInit, OnChanges {
 
   // Set initial dimensions on init.
   ngOnInit() {
+    this.width = 500;
+    this.height = 50;
     this.onResize();
   }
 
   // Draw the curve again whenever changes occur
-  // (i.e. a new "data" List has arrived)
   ngOnChanges() {
     this.draw();
   }
@@ -41,6 +42,7 @@ export class ChartComponent implements OnInit, OnChanges {
   // When the window is resized, recalculate our canvas dimensions and redraw.
   @HostListener("window:resize")
   onResize() {
+    console.log("resize called");
     // The canvas will fill the width and height of the host element.
     // See what they are and set them for the canvas.
     this.width = this.elRef.nativeElement.offsetWidth;
@@ -53,6 +55,17 @@ export class ChartComponent implements OnInit, OnChanges {
     this.canvas.height = this.height;
     this.canvas.style.width = `${this.width}px`;
     this.canvas.style.height = `${this.height}px`;
+    this.draw();
+  }
+
+  reset() {
+    console.log(this, " called the reset method");
+    this.width = 1200;
+    this.height = 200;
+    this.canvas.width = 1200;
+    this.canvas.height = 200;
+    this.canvas.style.width = `1200px`;
+    this.canvas.style.height = `200px`;
     this.draw();
   }
 
