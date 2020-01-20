@@ -8,8 +8,4 @@ import { ChartComponent } from "./chart/chart.component";
 })
 export class AppComponent {
   @ViewChild("myChart", { static: false }) child: ChartComponent;
-
-  reset() {
-    this.child.reset();
-  }
 }
