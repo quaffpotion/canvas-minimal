@@ -40,6 +40,10 @@ export class ChartComponent implements OnInit, OnChanges {
   // When the window is resized, recalculate our canvas dimensions and redraw.
   @HostListener("window:resize")
   onResize() {
+    console.log("Calling onResize, elRef: ", this.elRef);
+
+    console.log("before: ", this.height);
+
     // The canvas will fill the width and height of the host element.
     // See what they are and set them for the canvas.
     this.width = this.elRef.nativeElement.offsetWidth;
@@ -52,6 +56,7 @@ export class ChartComponent implements OnInit, OnChanges {
     this.canvas.height = this.height;
     this.canvas.style.width = `${this.width}px`;
     this.canvas.style.height = `${this.height}px`;
+    console.log("after: ", this.height);
     this.draw();
   }
 
