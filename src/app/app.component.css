@@ -1,6 +1,10 @@
 .container {
-  display: grid;
-  grid-template-rows: auto auto;
+  position: absolute;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  bottom: 0;
   background: red;
 }
 
