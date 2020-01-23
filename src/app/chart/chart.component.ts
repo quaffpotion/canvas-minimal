@@ -4,7 +4,6 @@ import {
   ViewChild,
   HostListener,
   Component,
-  OnInit,
   ElementRef
 } from "@angular/core";
 
@@ -14,12 +13,15 @@ import {
   styleUrls: ["./chart.component.css"]
 })
 export class ChartComponent implements OnChanges, AfterViewInit {
-  private data: number[] = [1, 2, 3, 4, 1, 2];
+  private yScale: number = 100;
+  private data: number[] = Array.from({ length: 2000 }, () =>
+    Math.floor(Math.random() * this.yScale)
+  );
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
-  private width = 500; //occurs before ngOnInit
-  private height = 50;
-
+  private width: number;
+  private height: number;
+  private barWidth: number;
   constructor(private elRef: ElementRef) {}
 
   @ViewChild("myCanvas", { static: false }) set canvasRef(
@@ -35,6 +37,9 @@ export class ChartComponent implements OnChanges, AfterViewInit {
 
   // Draw the curve again whenever changes occur
   ngOnChanges() {
+    //Recalculate derived values
+    this.barWidth = this.width / this.data.length;
+    //this.yScale = .... very likely the max range of values ....
     this.draw();
   }
 
@@ -53,19 +58,24 @@ export class ChartComponent implements OnChanges, AfterViewInit {
     this.canvas.height = this.height;
     this.canvas.style.width = `${this.width}px`;
     this.canvas.style.height = `${this.height}px`;
+
+    //Recalculate derived values
+    this.barWidth = this.width / this.data.length;
     this.draw();
   }
 
   private draw() {
+    this.ctx.translate(0, this.height);
+    this.ctx.scale(1, -1);
     this.ctx.clearRect(0, 0, this.width, this.height);
-
-    this.ctx.strokeStyle = "#222ea1";
-    this.ctx.lineWidth = this.height / 3;
-
-    // Draw the centerline
-    this.ctx.beginPath();
-    this.ctx.moveTo(0, this.height / 2);
-    this.ctx.lineTo(this.width, this.height / 2);
-    this.ctx.stroke();
+    this.ctx.fillStyle = "#FF30D2";
+    this.data.forEach((value, index) => {
+      this.ctx.fillRect(
+        index * this.barWidth,
+        0,
+        this.barWidth,
+        (value / this.yScale) * this.height
+      );
+    });
   }
 }

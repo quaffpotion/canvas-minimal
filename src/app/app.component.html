@@ -1,12 +1,7 @@
 <!-- Try resizing the window. <button (click)="reset()">Reset</button> -->
 <div class="container">
-  <app-chart></app-chart>
-  <app-chart></app-chart>
+  <app-chart
+    *ngFor="let item of items; let even = even"
+    [class.even]="even"
+  ></app-chart>
 </div>
-<!-- <div class="container2"> -->
-<!--   <div>x</div> -->
-<!--   <div>x</div> -->
-<!--   <div>x</div> -->
-<!--   <div>x</div> -->
-<!--   <div>x</div> -->
-<!-- </div> -->

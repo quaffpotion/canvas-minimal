@@ -4,3 +4,7 @@
   /* Overflow was the propery that caused the positive feedback loop */
   overflow: hidden;
 }
+
+.even {
+  background: #48304d;
+}
