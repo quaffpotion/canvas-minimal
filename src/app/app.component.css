@@ -5,5 +5,8 @@
   flex-direction: column;
   top: 0;
   bottom: 0;
+}
+
+.even {
   background: #48304d;
 }

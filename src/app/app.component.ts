@@ -8,5 +8,5 @@ import { ChartComponent } from "./chart/chart.component";
 })
 export class AppComponent {
   @ViewChild("myChart", { static: false }) child: ChartComponent;
-  private items = [1, 2, 3, 4, 5];
+  private items = Array.from({ length: 50 });
 }

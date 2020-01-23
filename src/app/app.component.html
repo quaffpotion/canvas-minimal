@@ -1,7 +1,6 @@
-<!-- Try resizing the window. <button (click)="reset()">Reset</button> -->
 <div class="container">
   <app-chart
-    *ngFor="let item of items; let even = even"
-    [class.even]="even"
+    *ngFor="let item of items; let evn = even"
+    [ngClass]="{ even: evn }"
   ></app-chart>
 </div>
