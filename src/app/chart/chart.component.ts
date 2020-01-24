@@ -14,12 +14,12 @@ import {
 })
 export class ChartComponent implements OnChanges, AfterViewInit {
   private yScale: number = 100;
-  private data: number[] = Array.from({ length: 2000 }, () =>
+  private data: number[] = Array.from({ length: 3 }, () =>
     Math.floor(Math.random() * this.yScale)
   );
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
-  private width: number;
+  private width: number = 100;
   private height: number;
   private barWidth: number;
   constructor(private elRef: ElementRef) {}
