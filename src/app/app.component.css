@@ -26,7 +26,7 @@
   border: 5px solid rgba(0, 0, 0, 0.03);
   border-radius: 3px;
   font-size: 35px;
-  background-color: #ffc600; /* best colour */
+  background-color: rgb(62, 25, 193); /* best colour */
 }
 
 .item p {

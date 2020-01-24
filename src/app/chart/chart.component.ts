@@ -68,7 +68,7 @@ export class ChartComponent implements OnChanges, AfterViewInit {
     this.ctx.translate(0, this.height);
     this.ctx.scale(1, -1);
     this.ctx.clearRect(0, 0, this.width, this.height);
-    this.ctx.fillStyle = "#FF30D2";
+    this.ctx.fillStyle = "seagreen";
     this.data.forEach((value, index) => {
       this.ctx.fillRect(
         index * this.barWidth,
