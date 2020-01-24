@@ -1,6 +1,17 @@
-<div class="container">
-  <app-chart
-    *ngFor="let item of items; let evn = even"
-    [ngClass]="{ even: evn }"
-  ></app-chart>
+<!-- <div class="container"> -->
+<!--   <app-chart -->
+<!--     *ngFor="let item of items; let evn = even" -->
+<!--     [ngClass]="{ even: evn }" -->
+<!--   ></app-chart> -->
+<!-- </div> -->
+
+<div
+  style="position:absolute;height:50%;width:50%;overflow:hidden;display:flex;flex-direction:column;"
+>
+  <app-chart></app-chart>
+  <app-chart></app-chart>
+  <app-chart></app-chart>
+  <app-chart></app-chart>
+  <app-chart></app-chart>
+  <app-chart></app-chart>
 </div>
