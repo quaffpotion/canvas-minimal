@@ -15,7 +15,7 @@ import {
 export class ChartComponent implements OnChanges, AfterViewInit {
   private yScale: number = 100;
   private data: number[] = Array.from(
-    { length: Math.floor(Math.random() ** 2 * 1000) },
+    { length: Math.max(5, Math.floor(Math.random() ** 2 * 1000)) },
     () => Math.floor(Math.random() * this.yScale)
   );
   private canvas: HTMLCanvasElement;
