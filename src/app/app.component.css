@@ -1,8 +1,8 @@
 .container {
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: 2fr 300px auto 200px auto 1fr;
-  grid-template-rows: 10vh 20vh 10vh 20vh 10vh;
+  grid-template-columns: minmax(150px, 1fr) 100px minmax(100px, 3fr) 50px 1fr;
+  grid-template-rows: 30vh 20vh 10vh 5vh 10vh;
 }
 
 .even {
@@ -10,5 +10,5 @@
 }
 
 .odd {
-  background: #11F213;
+  background: #11f213;
 }
