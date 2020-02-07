@@ -7,6 +7,13 @@ import {
   ElementRef
 } from "@angular/core";
 
+interface Ohlc {
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+}
+
 @Component({
   selector: "app-chart",
   templateUrl: "./chart.component.html",
@@ -23,7 +30,38 @@ export class ChartComponent implements OnChanges, AfterViewInit {
   private width: number;
   private height: number;
   private barWidth: number;
+
   constructor(private elRef: ElementRef) {}
+
+  generateOhlc(seed: number): Ohlc {
+    let small, big;
+    [small, big] = [Math.random(), Math.random()].sort();
+
+    let bigShift = Math.random() * (1 - big);
+    let smallShift = Math.random() * (big - small) + bigShift;
+    let updown = Math.random() > 0.5;
+
+    let [open, high, low, close] = updown
+      ? [
+          bigShift + smallShift,
+          bigShift + big,
+          bigShift,
+          bigShift + smallShift + small
+        ]
+      : [
+          bigShift + smallShift + small,
+          bigShift + big,
+          bigShift,
+          bigShift + smallShift
+        ];
+
+    return {
+      open: open,
+      high: high,
+      low: low,
+      close: close
+    };
+  }
 
   @ViewChild("myCanvas", { static: false }) set canvasRef(
     canvasRef: ElementRef
