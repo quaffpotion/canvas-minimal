@@ -9,4 +9,9 @@ import { ChartComponent } from "./chart/chart.component";
 export class AppComponent {
   @ViewChild("myChart", { static: false }) child: ChartComponent;
   private items = Array.from({ length: 50 });
+  private count = 0;
+
+  addOne() {
+    this.count = this.count + 1;
+  }
 }

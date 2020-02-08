@@ -1,16 +1,28 @@
 import {
   AfterViewInit,
   OnChanges,
+  DoCheck,
   ViewChild,
   HostListener,
   Component,
-  ElementRef
+  ElementRef,
+  ChangeDetectionStrategy
 } from "@angular/core";
 
 @Component({
+  selector: "some-child",
+  template: ``
+})
+export class SomeChild implements DoCheck {
+  ngDoCheck() {
+    console.log("DoCheck called");
+  }
+}
+@Component({
   selector: "app-chart",
   templateUrl: "./chart.component.html",
-  styleUrls: ["./chart.component.css"]
+  styleUrls: ["./chart.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush // When uncommented Angular uses the default change strategy so when the count property is reassigned Angular will check for changes on the whole tree of components. When commented, Angular won't get around to the child component unless something makes it check the parent
 })
 export class ChartComponent implements OnChanges, AfterViewInit {
   private yScale: number = 100;
@@ -31,7 +43,6 @@ export class ChartComponent implements OnChanges, AfterViewInit {
     this.canvas = canvasRef.nativeElement;
     this.ctx = canvasRef.nativeElement.getContext("2d");
   }
-
   ngAfterViewInit() {
     this.onResize();
   }
