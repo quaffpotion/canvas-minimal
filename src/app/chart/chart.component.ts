@@ -21,17 +21,21 @@ export class ChartComponent implements OnInit, AfterViewInit {
     () => Math.floor(Math.random() * this.yScale)
   );
   private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
+  private brush: CanvasRenderingContext2D;
   private width: number;
   private height: number;
+
+  // Properties that are chart specific:
   private barWidth: number;
+
   constructor(private elRef: ElementRef) {}
 
+  // Angular uses @ViewChild to grab the canvas element. We use a javascript setter to also make sure the canvas and paintbrush are in sync.
   @ViewChild("myCanvas", { static: false }) set canvasRef(
     canvasRef: ElementRef
   ) {
     this.canvas = canvasRef.nativeElement;
-    this.ctx = canvasRef.nativeElement.getContext("2d");
+    this.brush = canvasRef.nativeElement.getContext("2d");
   }
   ngOnInit() {
     // This is where you would subscribe to any observables from injected services
@@ -71,15 +75,15 @@ export class ChartComponent implements OnInit, AfterViewInit {
 
   private draw() {
     //These lines set the origin to be in the lower left corner with positive values pointing up and to the right.
-    this.ctx.translate(0, this.height);
-    this.ctx.scale(1, -1);
+    this.brush.translate(0, this.height);
+    this.brush.scale(1, -1);
 
     //We erase everything before drawing
-    this.ctx.clearRect(0, 0, this.width, this.height);
+    this.brush.clearRect(0, 0, this.width, this.height);
 
-    this.ctx.fillStyle = "#FF30D2";
+    this.brush.fillStyle = "#FF30D2";
     this.data.forEach((value, index) => {
-      this.ctx.fillRect(
+      this.brush.fillRect(
         index * this.barWidth,
         0,
         this.barWidth,
