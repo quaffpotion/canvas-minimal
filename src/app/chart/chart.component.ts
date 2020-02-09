@@ -1,30 +1,20 @@
 import {
   AfterViewInit,
-  OnChanges,
-  DoCheck,
   ViewChild,
   HostListener,
   Component,
   ElementRef,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnInit
 } from "@angular/core";
 
-@Component({
-  selector: "some-child",
-  template: ``
-})
-export class SomeChild implements DoCheck {
-  ngDoCheck() {
-    console.log("DoCheck called");
-  }
-}
 @Component({
   selector: "app-chart",
   templateUrl: "./chart.component.html",
   styleUrls: ["./chart.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush // When uncommented Angular uses the default change strategy so when the count property is reassigned Angular will check for changes on the whole tree of components. When commented, Angular won't get around to the child component unless something makes it check the parent
 })
-export class ChartComponent implements OnChanges, AfterViewInit {
+export class ChartComponent implements OnInit, AfterViewInit {
   private yScale: number = 100;
   private data: number[] = Array.from(
     { length: Math.max(5, Math.floor(Math.random() ** 2 * 1000)) },
@@ -43,43 +33,50 @@ export class ChartComponent implements OnChanges, AfterViewInit {
     this.canvas = canvasRef.nativeElement;
     this.ctx = canvasRef.nativeElement.getContext("2d");
   }
+  ngOnInit() {
+    // This is where you would subscribe to any observables from injected services
+  }
+
+  // We need to wait until this are initialized before trying to resize and draw.
   ngAfterViewInit() {
     this.onResize();
   }
 
-  // Draw the curve again whenever changes occur
+  // Whenever Angular has changes we need to recalculate values that depend on the data and then
+  // resize and redraw.
   ngOnChanges() {
-    //Recalculate derived values
     this.barWidth = this.width / this.data.length;
-    //this.yScale = .... very likely the max range of values ....
     this.draw();
   }
 
-  // When the window is resized, recalculate our canvas dimensions and redraw.
+  // Whenever a resize event occurs we reset the width manually and redraw
   @HostListener("window:resize")
   onResize() {
-    // The canvas will fill the width and height of the host element.
-    // See what they are and set them for the canvas.
+    //Get the height of the app-chart component and force canvas to match it
+    //canvas.width is used to calculate what to draw
+    //canvas.style.width is really just scaling
     this.width = this.elRef.nativeElement.offsetWidth;
     this.height = this.elRef.nativeElement.offsetHeight;
-    // We're manually setting these instead of using property bindings in
-    // the view, because we need these to be set before we invoke "draw".
-    // HTML5 canvas is always cleared when its width/height is set, so
-    // the order in which this happens is significant.
     this.canvas.width = this.width;
     this.canvas.height = this.height;
     this.canvas.style.width = `${this.width}px`;
     this.canvas.style.height = `${this.height}px`;
 
-    //Recalculate derived values
+    //Recalculate derived values that depend on the data
     this.barWidth = this.width / this.data.length;
+
+    //Finally, redraw the canvas
     this.draw();
   }
 
   private draw() {
+    //These lines set the origin to be in the lower left corner with positive values pointing up and to the right.
     this.ctx.translate(0, this.height);
     this.ctx.scale(1, -1);
+
+    //We erase everything before drawing
     this.ctx.clearRect(0, 0, this.width, this.height);
+
     this.ctx.fillStyle = "#FF30D2";
     this.data.forEach((value, index) => {
       this.ctx.fillRect(
